@@ -65,29 +65,38 @@ function Node(x) {
     display: "block",
     marginLeft: ((x.depth + 0) * 20).toString() + "px"
   };
-  const s2 = {
-    borderWidth: "1px",
-    borderColor: "black",
-    borderStyle: "solid",
-    borderRadius: "3px"
+  const itemID = x.id; // this need to be an identifying ID for the Node.
+  const dragStartHandler = event => {
+    const dt = event.dataTransfer;
+    let modelData = x;
+    delete modelData.depth;
+    dt.setData("application/json", JSON.stringify(modelData));
+    dt.effectAllowed = "copyMove";
+    console.log(modelData);
   };
-  const itemID = x.id;
+  const dragEnterHandler = event => {
+    event.preventDefault();
+  };
+  const dragOverHandler = event => {
+    event.preventDefault();
+  };
+  const dropHandler = event => {
+    event.preventDefault();
+  };
+
   return (
     <li
+      className="nodeItem"
       style={styling}
       draggable={true}
       key={itemID}
-      onDragStart={event => {
-        console.log(event);
-        const dt = event.dataTransfer;
-        const modelData = itemID;
-        dt.setData("application/json", JSON.stringify(modelData));
-      }}
+      onDragStart={dragStartHandler}
+      onDragEnter={dragEnterHandler}
+      onDragOver={dragOverHandler}
+      onDrop={dropHandler}
     >
       <input type="checkbox" value={x.visible.toString()} />
-      <a href={x.data.url} style={s2}>
-        {x.data.title}
-      </a>
+      <a href={x.data.url}>{x.data.title}</a>
     </li>
   );
 }

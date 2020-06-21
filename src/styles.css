@@ -11,3 +11,15 @@
   -ms-user-select: none;
   user-select: none;
 }
+
+.nodeItem > a {
+  background-color: rgba(255, 0, 0, 0.2);
+  border-width: 1.5px;
+  border-color: black;
+  border-style: solid;
+  border-radius: 2px;
+}
+
+.nodeItem > a:-moz-drag-over {
+  outline: 1px solid black;
+}
