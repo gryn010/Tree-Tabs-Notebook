@@ -71,14 +71,17 @@ function Node(x) {
     borderStyle: "solid",
     borderRadius: "3px"
   };
+  const itemID = x.id;
   return (
     <li
       style={styling}
       draggable={true}
-      // onMouseDown={e => pauseEvent(e)}
-      // onMouseMove={e => pauseEvent(e)}
-      onDragStart={ev => {
-        console.log(ev);
+      key={itemID}
+      onDragStart={event => {
+        console.log(event);
+        const dt = event.dataTransfer;
+        const modelData = itemID;
+        dt.setData("application/json", JSON.stringify(modelData));
       }}
     >
       <input type="checkbox" value={x.visible.toString()} />
