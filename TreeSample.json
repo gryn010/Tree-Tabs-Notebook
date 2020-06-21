@@ -1,0 +1,53 @@
+{
+  "data": { "title": "root Node" },
+  "expanded": true,
+  "children": [
+    {
+      "data": { "title": "example of a node 1" },
+      "children": [],
+      "expanded": true
+    },
+    {
+      "data": { "title": "example of a node 2" },
+      "children": [
+        {
+          "data": { "title": "example of a node 2.1" },
+          "children": [],
+          "expanded": false
+        },
+        {
+          "data": { "title": "example of a node 2.2" },
+          "children": [
+            {
+              "data": { "title": "example of a node 2.2.1" },
+              "children": [],
+              "expanded": false
+            },
+            {
+              "data": { "title": "example of a node 2.2.2" },
+              "children": [],
+              "expanded": true
+            },
+            {
+              "data": { "title": "example of a node 2.2.3" },
+              "children": [],
+              "expanded": true
+            }
+          ],
+          "expanded": true
+        },
+        {
+          "data": { "title": "example of a node 2.3" },
+          "children": [],
+          "expanded": true
+        }
+      ],
+      "expanded": true
+    },
+    {
+      "data": { "title": "example of a node 3" },
+      "children": [],
+      "expanded": true
+    }
+  ]
+}
