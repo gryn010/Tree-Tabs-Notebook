@@ -1,6 +1,7 @@
 import * as React from "react";
 import "./styles.css";
-import testData from "/TreeSample.json";
+import { connect } from "react-redux";
+import testData from "/test/TreeSample.json";
 
 /** Intention: the idea is create a virtualized tree
  *
@@ -81,6 +82,14 @@ function Node(x) {
     event.preventDefault();
   };
   const dropHandler = event => {
+    console.log("Drop Event");
+    const data = JSON.parse(event.dataTransfer.getData("application/json"));
+    console.log(data);
+    // props.update({
+    //   type: "move",
+    //   parent: props,
+    //   child: event.dataTransfer
+    // });
     event.preventDefault();
   };
 
