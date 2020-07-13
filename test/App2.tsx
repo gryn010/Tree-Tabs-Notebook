@@ -3,7 +3,7 @@
 import * as React from "react";
 import "./styles.css";
 import { connect } from "react-redux";
-import testData from "/test/TreeSample.json";
+import testData from "./data/TreeSample.json";
 
 /** Intention: the idea is create a virtualized tree
  *

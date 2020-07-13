@@ -1,0 +1,80 @@
+{
+    "nodes": 
+        {
+            "dc40d6c3-6d5e-4b60-ae7b-d3f8acb8b2f5": {
+                "ID": "dc40d6c3-6d5e-4b60-ae7b-d3f8acb8b2f5",
+                "data": { "title": "root Node" },
+                "expanded": true,
+                "children": [
+                  "fd8bd709-174b-47c5-b3f4-c5cb7b2e46b2",
+                  "d52f4b26-4e2c-4526-80aa-e738b6e100e1",
+                  "f1125d2f-1b8c-4e85-b3ba-1f1653b976aa",
+                 ]
+              },
+              "fd8bd709-174b-47c5-b3f4-c5cb7b2e46b2": {
+                "ID": "fd8bd709-174b-47c5-b3f4-c5cb7b2e46b2",
+                "data": { "title": "example of a node 1" },
+                "children": [],
+                "expanded": true
+              },
+              "d52f4b26-4e2c-4526-80aa-e738b6e100e1": {
+                "ID": "d52f4b26-4e2c-4526-80aa-e738b6e100e1",
+                "data": { "title": "example of a node 2" },
+                "children": [
+                  "2e89f716-d2f5-4816-b5f1-87c4b3e23373",
+                  "2c77d152-26d1-445b-bfb2-96b70638acfa",
+                  "c3d84414-f28c-49eb-b023-793d152fce9a",
+                ],
+                "expanded": true
+              },
+              "2e89f716-d2f5-4816-b5f1-87c4b3e23373": {
+                "ID": "2e89f716-d2f5-4816-b5f1-87c4b3e23373",
+                "data": { "title": "example of a node 2.1" },
+                "children": [],
+                "expanded": false
+              },
+              "2c77d152-26d1-445b-bfb2-96b70638acfa": {
+                "ID": "2c77d152-26d1-445b-bfb2-96b70638acfa",
+                "data": { "title": "example of a node 2.2" },
+                "children": [
+                  "42593dca-5e73-458e-a92d-ac9620752416",
+                  "1dc50740-c833-4a8b-9759-5e4e0c6b1efc",
+                  "9c29ff58-435f-46fe-a202-a6c131336400",
+                ],
+                "expanded": true
+              },
+              "c3d84414-f28c-49eb-b023-793d152fce9a": {
+                "ID": "c3d84414-f28c-49eb-b023-793d152fce9a",
+                "data": { "title": "example of a node 2.3" },
+                "children": [],
+                "expanded": true
+              },
+              "42593dca-5e73-458e-a92d-ac9620752416": {
+                "ID": "42593dca-5e73-458e-a92d-ac9620752416",
+                "data": { "title": "example of a node 2.2.1" },
+                "children": [],
+                "expanded": false
+              },
+              "1dc50740-c833-4a8b-9759-5e4e0c6b1efc": {
+                "ID": "1dc50740-c833-4a8b-9759-5e4e0c6b1efc",
+                "data": { "title": "example of a node 2.2.2" },
+                "children": [],
+                "expanded": true
+              },
+              "9c29ff58-435f-46fe-a202-a6c131336400": {
+                "ID": "9c29ff58-435f-46fe-a202-a6c131336400",
+                "data": { "title": "example of a node 2.2.3" },
+                "children": [],
+                "expanded": true
+              },
+              "f1125d2f-1b8c-4e85-b3ba-1f1653b976aa":{
+                "ID": "f1125d2f-1b8c-4e85-b3ba-1f1653b976aa",
+                "data": { "title": "example of a node 3" },
+                "children": [],
+                "expanded": true
+              },
+              
+        }    
+}
+
+

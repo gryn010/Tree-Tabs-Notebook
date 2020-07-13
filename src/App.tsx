@@ -1,11 +1,10 @@
 import * as React from "react";
 import "./styles.css";
-import { connect } from "react-redux";
-import testData from "/test/TreeSample.json";
+import { useDispatch } from "react-redux";
+import testData from "./data/TreeSample.json";
+import Actions from "./actions"
+//** Intention: the idea is create a virtualized tree
 
-/** Intention: the idea is create a virtualized tree
- *
- */
 
 type NodeData = {
   title: string;
@@ -41,18 +40,14 @@ function ConvertDataModelToDepthList(
 }
 
 // TODO: do a test suite that benchmarks the perf of usage of this treeview to see if it's worth the time spent on it.
-export class TreeView extends React.Component<
-  { DataModel: TreeDataModel },
-  any
-> {
-  public render() {
-    const linList = ConvertDataModelToDepthList(this.props.DataModel);
+export const TreeView : React.FunctionComponent <{ DataModel: TreeDataModel }> = (props) => {
+    const linList = ConvertDataModelToDepthList(props.DataModel);
     console.log(linList);
     let items = linList
       // .filter(x => x.visible)
       .map(Node);
     return <ul>{items}</ul>;
-  }
+
 }
 
 // rowDom.ondragstart = DD_ondragstart;
@@ -61,35 +56,34 @@ export class TreeView extends React.Component<
 // rowDom.ondragenter = DD_ondragenter;
 // rowDom.ondrop = DD_ondrop;
 
-function Node(x) {
+const Node = (props: any) => {
+  const dispatch = useDispatch();
   const styling = {
     display: "block",
-    marginLeft: ((x.depth + 0) * 20).toString() + "px"
+    marginLeft: ((props.depth + 0) * 20).toString() + "px"
   };
-  const itemID = x.id; // this need to be an identifying ID for the Node.
-  const dragStartHandler = event => {
+  const itemID = props.id; // this need to be an identifying ID for the Node.
+  const dragStartHandler = (event:any) => {
     const dt = event.dataTransfer;
-    let modelData = x;
+    let modelData = props;
     delete modelData.depth;
     dt.setData("application/json", JSON.stringify(modelData));
     dt.effectAllowed = "copyMove";
     console.log(modelData);
   };
-  const dragEnterHandler = event => {
+  const dragEnterHandler = (event:any) => {
     event.preventDefault();
   };
-  const dragOverHandler = event => {
+  const dragOverHandler = (event:any) => {
     event.preventDefault();
   };
-  const dropHandler = event => {
-    console.log("Drop Event");
+  const dropHandler = (event:React.DragEvent)  => {
     const data = JSON.parse(event.dataTransfer.getData("application/json"));
+    console.log("Drop Event");
     console.log(data);
-    // props.update({
-    //   type: "move",
-    //   parent: props,
-    //   child: event.dataTransfer
-    // });
+    console.log(this)
+    //dispatch(Actions.moveNode(props, data))
+    dispatch({type: 'move_node', source: props, target: data})
     event.preventDefault();
   };
 
@@ -104,8 +98,8 @@ function Node(x) {
       onDragOver={dragOverHandler}
       onDrop={dropHandler}
     >
-      <input type="checkbox" value={x.visible.toString()} />
-      <a href={x.data.url}>{x.data.title}</a>
+      <input type="checkbox" value={props.visible.toString()} />
+      <a href={props.data.url}>{props.data.title}</a>
     </li>
   );
 }
