@@ -1,60 +1,45 @@
 import * as React from "react";
 import "./styles.css";
-import { useDispatch } from "react-redux";
-import testData from "./data/TreeSample.json";
+import { useDispatch, useSelector, connect } from "react-redux";
 import Actions from "./actions"
 //** Intention: the idea is create a virtualized tree
 
 
-type NodeData = {
-  title: string;
-  url?: string;
-  comment?: string;
-  icon?: string;
-};
-type TreeDataModel = {
-  data: NodeData;
-  children: TreeDataModel[];
-  expanded: boolean;
-};
-type LinearTreeRepresentation = {
-  data: NodeData;
-  depth: number;
-  visible: boolean;
-}[];
-
-function ConvertDataModelToDepthList(
-  input: TreeDataModel,
-  depth?: number
-): LinearTreeRepresentation {
-  let out = [];
-  let depthIndex = depth ? depth : 0;
-  out.push({ data: input.data, depth: depthIndex, visible: input.expanded });
-  // console.log(input.children.length)
-  // if (input.expanded)
-  input.children.forEach(n => {
-    out.push(...ConvertDataModelToDepthList(n, depthIndex + 1));
-  });
-
-  return out;
+// quick hack for now, this mutate the array. 
+function addNodeDepth(arr_, root){
+  let arr = Object.assign({}, arr_);
+  function updateNodeDepths(arr, node_id, depth = 0) {
+    if (!arr[node_id].visible) arr[node_id].visible = true;
+    arr[node_id].depth = depth;
+    arr[node_id].children.map(id => updateNodeDepths(arr, id, depth + 1));
+  }
+  updateNodeDepths(arr, root);
+  return arr;
 }
 
+function sortNodes(arr, root){
+  let nodes = [];
+  nodes.push(arr[root])
+  if(arr[root].children.length > 0)
+  arr[root].children.map(id => {nodes.push(... sortNodes(arr,id))})  
+  return nodes;
+}
 // TODO: do a test suite that benchmarks the perf of usage of this treeview to see if it's worth the time spent on it.
-export const TreeView : React.FunctionComponent <{ DataModel: TreeDataModel }> = (props) => {
-    const linList = ConvertDataModelToDepthList(props.DataModel);
-    console.log(linList);
-    let items = linList
-      // .filter(x => x.visible)
-      .map(Node);
-    return <ul>{items}</ul>;
+export const TreeView: React.FunctionComponent<any> = (props) => {
+  console.log('TreeView render triggered')
+  const rootNode = props.rootNode;
+
+  const nodesWithDepth = addNodeDepth(props.nodes, rootNode); 
+  // .filter(x => x.visible)
+  let items = sortNodes(nodesWithDepth, rootNode).map(Node);
+  return <ul><>{items}</></ul>;
 
 }
-
-// rowDom.ondragstart = DD_ondragstart;
-// rowDom.ondragend = DD_ondragend;
-// rowDom.ondragover = DD_ondragover;
-// rowDom.ondragenter = DD_ondragenter;
-// rowDom.ondrop = DD_ondrop;
+export const RTreeView = connect(
+  (state: any) => ({
+    nodes: state.nodes,
+    rootNode: state.rootNode
+  }))(TreeView);
 
 const Node = (props: any) => {
   const dispatch = useDispatch();
@@ -62,8 +47,8 @@ const Node = (props: any) => {
     display: "block",
     marginLeft: ((props.depth + 0) * 20).toString() + "px"
   };
-  const itemID = props.id; // this need to be an identifying ID for the Node.
-  const dragStartHandler = (event:any) => {
+  const itemID = props.ID; // this need to be an identifying ID for the Node.
+  const dragStartHandler = (event: any) => {
     const dt = event.dataTransfer;
     let modelData = props;
     delete modelData.depth;
@@ -71,19 +56,16 @@ const Node = (props: any) => {
     dt.effectAllowed = "copyMove";
     console.log(modelData);
   };
-  const dragEnterHandler = (event:any) => {
+  const dragEnterHandler = (event: any) => {
     event.preventDefault();
   };
-  const dragOverHandler = (event:any) => {
+  const dragOverHandler = (event: any) => {
     event.preventDefault();
   };
-  const dropHandler = (event:React.DragEvent)  => {
+  const dropHandler = (event: React.DragEvent) => {
     const data = JSON.parse(event.dataTransfer.getData("application/json"));
-    console.log("Drop Event");
-    console.log(data);
-    console.log(this)
     //dispatch(Actions.moveNode(props, data))
-    dispatch({type: 'move_node', source: props, target: data})
+    dispatch({ type: 'move_node', source: data.ID, target: props.ID })
     event.preventDefault();
   };
 
@@ -102,8 +84,8 @@ const Node = (props: any) => {
       <a href={props.data.url}>{props.data.title}</a>
     </li>
   );
-}
-// onClick={this.state.visible}
+};
+// const CNode = connect((state:any, p:any) => ({data:state.nodes[p.ID].data}))(Node);
 
 type AppConfig = any;
 type AppState = any;
@@ -115,7 +97,8 @@ class App extends React.Component<AppConfig, AppState> {
   public render() {
     return (
       <div className="App">
-        <TreeView DataModel={testData} />
+        {/* <TreeView DataModel={null} /> */}
+        <RTreeView />
       </div>
     );
   }
